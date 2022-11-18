@@ -1,3 +1,6 @@
+#ifndef __PLUGS__
+#define __PLUGS__
+
 #include <string>
 #include <map>
 
@@ -16,3 +19,5 @@ public:
     char encode(char input);
     //~Plugboard();
 };
+
+#endif

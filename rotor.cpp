@@ -1,20 +1,30 @@
 #include "rotor.h"
 #include <iostream>
 
+void Rotor::setWiring(string wiring)
+{
+    char l = 'A';
+    for (size_t i = 0; i < wiring.size(); i++)
+    {
+        this->wiring[l] = wiring[i];
+        l++;
+    }
+}
+
 Rotor::Rotor(string wiring, int first, int notch)
 {
-    string keys = "";
-    while (wiring.size()) // split the wiring string
-    {
-        cout << wiring << endl;
-        keys = wiring.substr(0, 2);
-        wiring.erase(0, 2);
-        this->wiring[keys[0]] = keys[1];
-        this->wiring[keys[1]] = keys[0];
-    }
-
+    setWiring(wiring);
     this->first = first;
     this->notch = notch;
+    this->extra_n = 0;
+}
+
+Rotor::Rotor(string wiring, int first, int notch, int extra_n)
+{
+    setWiring(wiring);
+    this->first = first;
+    this->notch = notch;
+    this->extra_n = extra_n;
 }
 
 int Rotor::getFirst(void)
