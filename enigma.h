@@ -3,42 +3,24 @@
 
 #include "rotor.h"
 #include "plugboard.h"
-#include <map>
+#include <vector>
 #include <string>
+
+#define NOTCH_OFFSET 18
 
 class Enigma
 {
-    enum WHEELS
-    {
-        I,
-        II,
-        III,
-        IV,
-        V,
-        VI,
-        VII,
-        VIII
-    };
-    enum ZSTW
-    {
-        beta,
-        gamma
-    };
-    enum UKW
-    {
-        b,
-        c
-    };
-
 private:
     Plugboard *plugs;
-    Rotor *rotors[3];
-    Rotor *extra_rotor;
+    Rotor *fast_rotor;
+    vector<Rotor *> rotors;
     Rotor *reflector;
-    void setRotor(WHEELS rotor, int pos, int first, int notch);
 
 public:
-    Enigma(WHEELS rotors[3], ZSTW extra_r, UKW reflector, string plugs);
+    Enigma(string plugs, string fast_rotor, string ukw);
+    void addRotor(string rotor);
+    char encode(char input);
+    void printRotors(void);
 };
 
 #endif
