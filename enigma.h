@@ -6,11 +6,11 @@
 #include <vector>
 #include <string>
 
-#define NOTCH_OFFSET 18
-
 class Enigma
 {
 private:
+#define NOTCH_OFFSET 8
+
     Plugboard *plugs;
     Rotor *fast_rotor;
     vector<Rotor *> rotors;

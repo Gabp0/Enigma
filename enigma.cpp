@@ -5,13 +5,13 @@
 Enigma::Enigma(string plugs, string fast_rotor, string ukw)
 {
     this->plugs = new Plugboard(plugs);
-    this->fast_rotor = new Rotor(fast_rotor.substr(0, 26), stoi(fast_rotor.substr(27, 1)), fast_rotor.substr(29, fast_rotor.size() - 29));
-    this->reflector = new Rotor(ukw.substr(0, 26), 1, "A");
+    this->fast_rotor = new Rotor(fast_rotor.substr(0, 26), fast_rotor.substr(27, 1)[0], stoi(fast_rotor.substr(29, 2)), fast_rotor.substr(32, fast_rotor.size() - 32));
+    this->reflector = new Rotor(ukw.substr(0, 26), 1, 'A', "A");
 }
 
 void Enigma::addRotor(string settings)
-{
-    this->rotors.push_back(new Rotor(settings.substr(0, 26), stoi(settings.substr(27, 1)), settings.substr(29, settings.size() - 29)));
+{ // SOVPZJAYQUIRHXLNFTGKDCMWB:A:16:T
+    this->rotors.push_back(new Rotor(settings.substr(0, 26), settings.substr(27, 1)[0], stoi(settings.substr(29, 2)), settings.substr(32, settings.size() - 32)));
 }
 
 char Enigma::encode(char input)

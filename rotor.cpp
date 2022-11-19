@@ -3,7 +3,7 @@
 
 Rotor::Rotor(void)
 {
-    for (size_t i = 0; i < LETTERS; i++)
+    for (size_t i = 0; i < ASIZE; i++)
     {
         this->wiring[i] = i;
         this->back_wiring[i] = i;
@@ -11,15 +11,17 @@ Rotor::Rotor(void)
     this->first = 0;
 }
 
-Rotor::Rotor(string wiring, int first, string notchs)
+Rotor::Rotor(string wiring, char first, int ringsetting, string notchs)
 {
     for (size_t i = 0; i < wiring.size(); i++)
     {
-        this->wiring[i] = wiring[i] - ASCII_OFFSET;
-        this->back_wiring[wiring[i] - ASCII_OFFSET] = i;
+        this->wiring[i] = wiring[(i + ringsetting - 1) % ASIZE] - ASCII_OFFSET;
+        this->back_wiring[wiring[i] - ASCII_OFFSET] = (i + ringsetting - 1) % ASIZE;
     }
-    this->notchs = notchs;
-    this->first = first - 1;
+
+    this->turnover = notchs;
+    this->first = first - ASCII_OFFSET;
+    this->ringsetting = ringsetting;
 }
 
 char Rotor::getFirstLetter(void)
@@ -29,22 +31,22 @@ char Rotor::getFirstLetter(void)
 
 string Rotor::getNotch(void)
 {
-    return this->notchs;
+    return this->turnover;
 }
 
 void Rotor::spin(void)
 {
-    first = (first + 1) % LETTERS;
+    first = (first + 1) % ASIZE;
 }
 
 char Rotor::encode(char input)
 {
-    return this->wiring[(input - ASCII_OFFSET + first) % LETTERS] + ASCII_OFFSET;
+    return this->wiring[(input - ASCII_OFFSET + first) % ASIZE] + ASCII_OFFSET;
 }
 
 char Rotor::back_encode(char input)
 {
-    return this->back_wiring[(input - ASCII_OFFSET + first) % LETTERS] + ASCII_OFFSET;
+    return this->back_wiring[(input - ASCII_OFFSET + first) % ASIZE] + ASCII_OFFSET;
 }
 
 void Rotor::printRotor(void)
@@ -55,7 +57,7 @@ void Rotor::printRotor(void)
         out = wire + ASCII_OFFSET;
         cout << out;
     }
-    cout << ":" << first + 1 << ":" << this->notchs << endl;
+    cout << ":" << this->getFirstLetter() << ":" << this->ringsetting << ":" << this->turnover << endl;
 }
 
 // EKUTGBH

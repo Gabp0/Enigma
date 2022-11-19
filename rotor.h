@@ -6,20 +6,20 @@
 
 using namespace std;
 
-#define LETTERS 26
-#define ASCII_OFFSET 65
-
 class Rotor
 {
 private:
-    char wiring[LETTERS];
-    char back_wiring[LETTERS];
+#define ASIZE 26
+#define ASCII_OFFSET 65
+    char wiring[ASIZE];
+    char back_wiring[ASIZE];
     char first;
-    string notchs;
+    int ringsetting;
+    string turnover;
 
 public:
     Rotor(void);
-    Rotor(string wiring, int first, string notchs);
+    Rotor(string wiring, char first, int ringsetting, string notchs);
     char getFirstLetter(void);
     string getNotch(void);
     void spin(void);
