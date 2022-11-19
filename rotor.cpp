@@ -1,52 +1,51 @@
 #include "rotor.h"
 #include <iostream>
 
-void Rotor::setWiring(string wiring)
+Rotor::Rotor(string wiring, int first, string notchs, bool fast_rotor)
 {
-    char l = 'A';
     for (size_t i = 0; i < wiring.size(); i++)
     {
-        this->wiring[l] = wiring[i];
-        l++;
+        this->wiring[i] = wiring[i] - ASCII_OFFSET;
+        this->back_wiring[wiring[i] - ASCII_OFFSET] = i;
     }
-}
-
-Rotor::Rotor(string wiring, int first, int notch)
-{
-    setWiring(wiring);
-    this->first = first;
-    this->notch = notch;
-    this->extra_n = 0;
-}
-
-Rotor::Rotor(string wiring, int first, int notch, int extra_n)
-{
-    setWiring(wiring);
-    this->first = first;
-    this->notch = notch;
-    this->extra_n = extra_n;
+    for (size_t i = 0; i < notchs.size(); i++)
+    {
+        this->notchs[i] = notchs[i] - ASCII_OFFSET;
+    }
+    this->first = first - 1;
+    this->fast_rotor = fast_rotor;
 }
 
 int Rotor::getFirst(void)
 {
-    return this->first;
-}
-
-int Rotor::getNotch(void)
-{
-    return this->notch;
+    return this->first + 1;
 }
 
 void Rotor::spin(void)
 {
-    if (++this->first > 26)
-        this->first = 1;
+    if (fast_rotor)
+    {
+        first = (first + 1) % LETTERS;
+        return;
+    }
+
+    for (auto notch : this->notchs)
+    {
+        if (((first + NOTCH_OFFSET) % LETTERS) == notch)
+        {
+            first = (first + 1) % LETTERS;
+            return;
+        }
+    }
 }
 
-char Rotor::encode(char input, bool shouldSpin)
+char Rotor::encode(char input)
 {
-    if (shouldSpin)
-        spin();
+    spin();
+    return this->wiring[(input - ASCII_OFFSET + first) % LETTERS] + ASCII_OFFSET;
+}
 
-    return this->wiring[input];
+char Rotor::back_encode(char input)
+{
+    return this->back_wiring[(input - ASCII_OFFSET + first) % LETTERS] + ASCII_OFFSET;
 }

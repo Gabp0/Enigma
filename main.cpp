@@ -1,15 +1,20 @@
 #include "plugboard.h"
+#include "rotor.h"
 #include <iostream>
 
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    char input = argv[1][0];
+    // Plugboard plugs("AOHIMUSNVXZQ");
+    char input = ' ';
+    Rotor r("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", true);
 
-    Plugboard plugs("AOHIMUSNVXZQ");
-    cout << plugs.encode(input) << endl;
+    do
+    {
+        cin >> input;
+        cout << "encode: " << r.encode(toupper(input)) << endl;
+    } while (input != EOF);
 
     return 0;
 }
-    

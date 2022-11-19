@@ -1,28 +1,31 @@
 #ifndef __ROTOR__
 #define __ROTOR__
 
-#include <map>
 #include <string>
 
 using namespace std;
 
+#define LETTERS 26
+#define ASCII_OFFSET 65
+#define NOTCH_OFFSET 18
+
 class Rotor
 {
 private:
-    map<char, char> wiring;
-    int first;
-    int notch;
-    int extra_n;
+    char wiring[LETTERS];
+    char back_wiring[LETTERS];
+    char first;
+    char notchs[LETTERS];
+    bool fast_rotor;
 
-    void setWiring(string wiring);
     void spin(void);
 
 public:
-    Rotor(string wiring, int first, int notch);
-    Rotor(string wiring, int first, int notch, int extra_n);
+    Rotor(string wiring, int first, string notchs, bool fast_rotor);
     int getFirst(void);
     int getNotch(void);
-    char encode(char input, bool shouldSpin);
+    char encode(char input);
+    char back_encode(char input);
 };
 
 #endif
