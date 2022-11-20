@@ -6,7 +6,7 @@ Enigma::Enigma(string plugs, string fast_rotor, string ukw)
 {
     this->plugs = new Plugboard(plugs);
     this->fast_rotor = new Rotor(fast_rotor.substr(0, 26), fast_rotor.substr(27, 1)[0], stoi(fast_rotor.substr(29, 2)), fast_rotor.substr(32, fast_rotor.size() - 32));
-    this->reflector = new Rotor(ukw.substr(0, 26), 1, 'A', "A");
+    this->reflector = new Rotor(ukw, 'A', 1, "A");
 }
 
 void Enigma::addRotor(string settings)
@@ -16,36 +16,51 @@ void Enigma::addRotor(string settings)
 
 char Enigma::encode(char input)
 {
-    char p = this->plugs->encode(input); // plugboard
-
-    this->fast_rotor->spin(); // encode through fast rotor
-    char r = this->fast_rotor->encode(p);
-
+    char prevf = this->fast_rotor->getFirstLetter();
     string cur_notch = this->fast_rotor->getNotch();
-    char last_first = this->fast_rotor->getFirstLetter();
+    this->fast_rotor->spin(); // spin fast rotor
+
+    // for (auto rotor : rotors) // next rotors sequence
+    // {
+    //     if (cur_notch.find(prevf) != string::npos)
+    //     {
+    //         prevf = rotor->getFirstLetter();
+    //         rotor->spin();
+    //     }
+    //     else
+    //     {
+    //         prevf = rotor->getFirstLetter();
+    //     }
+    // }
+
+    char ct = this->plugs->encode(input); // plugboard
+    cout << "plugs: " << ct << endl;
+
+    ct = this->fast_rotor->encode(ct);
+    cout << "fr: " << ct << endl;
 
     for (auto rotor : rotors) // next rotors sequence
     {
-
-        if (cur_notch.find(last_first) != string::npos)
-        {
-            rotor->spin();
-        }
-        r = rotor->encode(r);
-        cur_notch = rotor->getNotch();
+        ct = rotor->back_encode(ct);
+        cout << "fr: " << ct << endl;
     }
 
-    char u = this->reflector->encode(r); // encode through reflector
+    ct = this->reflector->encode(ct); // encode through reflector
+    cout << "r: " << ct << endl;
 
     for (auto it = this->rotors.rbegin(); it != this->rotors.rend(); it++) // backwards rotors sequence
     {
 
-        u = (*it)->back_encode(u);
+        ct = (*it)->encode(ct);
+        cout << "br: " << ct << endl;
     }
 
-    char rs = this->fast_rotor->encode(u); // fast rotor again
+    ct = this->fast_rotor->encode(ct); // fast rotor again
+    cout << "bf: " << ct << endl;
 
-    return this->plugs->encode(rs); // plugboard again
+    cout << "plugs: " << this->plugs->encode(ct) << endl;
+
+    return this->plugs->encode(ct); // plugboard again
 }
 
 void Enigma::printRotors(void)

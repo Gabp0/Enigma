@@ -41,12 +41,14 @@ void Rotor::spin(void)
 
 char Rotor::encode(char input)
 {
-    return this->wiring[(input - ASCII_OFFSET + first) % ASIZE] + ASCII_OFFSET;
+    int i = input - ASCII_OFFSET;
+    return ((this->wiring[(i - first) % ASIZE] + first) % ASIZE) + ASCII_OFFSET;
 }
 
 char Rotor::back_encode(char input)
 {
-    return this->back_wiring[(input - ASCII_OFFSET + first) % ASIZE] + ASCII_OFFSET;
+    int i = input - ASCII_OFFSET;
+    return ((this->back_wiring[(i - first) % ASIZE] + first) % ASIZE) + ASCII_OFFSET;
 }
 
 void Rotor::printRotor(void)
@@ -59,5 +61,3 @@ void Rotor::printRotor(void)
     }
     cout << ":" << this->getFirstLetter() << ":" << this->ringsetting << ":" << this->turnover << endl;
 }
-
-// EKUTGBH

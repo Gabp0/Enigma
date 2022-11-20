@@ -9,16 +9,17 @@ int main(int argc, char const *argv[])
 {
     string input;
 
-    Enigma m4("BWCTEFGPHJIXKZLONQSU", "ESOVPZJAYQUIRHXLNFTGKDCMWB:A:16:J", "ENKQAUYWJICOPBLMDXZVFTHRGS");
-    m4.addRotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ:A:22:Q");
-    m4.addRotor("BDFHJLCPRTXVZNYEIWGAKMUSQO:A:11:V");
-    m4.printRotors();
+    Enigma m4("AA", "BDFHJLCPRTXVZNYEIWGAKMUSQO:A:01:V", "YRUHQSLDPXNGOKMIEBFZCWVJAT");
+    m4.addRotor("AJDKSIRUXBLHWTMCQGZNPYFVOE:A:01:E");
+    m4.addRotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ:A:01:Q");
+
+    // m4.printRotors();
 
     cin >> input;
 
     for (char i : input)
     {
-        cout << m4.encode(i);
+        cout << m4.encode(i) << endl;
     }
     cout << endl;
 
